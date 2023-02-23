@@ -1,6 +1,6 @@
 # Three.js Galaxy
 
-My first project with Three.js creating an immersive galaxy
+ 😁 My first project with Three.js creating an immersive galaxy⭐
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
