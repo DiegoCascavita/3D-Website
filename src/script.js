@@ -1,12 +1,10 @@
 import * as THREE from 'three'
 import * as dat from 'lil-gui'
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
-import galaxyVertexShader from './shaders/galaxy/vertex.glsl'
-import galaxyFragmentShader from './shaders/galaxy/fragment.glsl'
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 
 /**
  * Debug
@@ -55,7 +53,7 @@ const mesh3 = new THREE.Mesh(
     new THREE.TorusGeometry(1, 0.4, 16, 60),
     material
 )
-
+mesh1.visible = false;
 mesh1.position.y = - objectsDistance * 0
 mesh2.position.y = - objectsDistance * 1
 mesh3.position.y = - objectsDistance * 2
@@ -138,7 +136,7 @@ scene.add(cameraGroup)
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 6
+camera.position.z = 7
 cameraGroup.add(camera)
 
 /**
@@ -211,23 +209,6 @@ const tick = () =>
 tick()
 //-------------------- 3d text ----------------
 /**
- * Base
- */
-// Debug
-const gui1 = new dat.GUI()
-
-// Canvas
-const canvas1 = document.querySelector('canvas.webgl')
-
-// Scene
-const scene1 = new THREE.Scene()
-
-/**
- * Textures
- */
-const textureLoader1 = new THREE.TextureLoader()
-const matcapTexture = textureLoader1.load('/matcaps/8.png')
-
 /**
  * Fonts
  */
@@ -242,7 +223,7 @@ fontLoader1.load(
 
         // Text
         const textGeometry = new TextGeometry(
-            'Welcome !!',
+            'Welcome!',
             {
                 font: font,
                 size: 0.3,
@@ -302,19 +283,6 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-/**
- * Camera
- */
-// Base camera
-// const camera1 = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-// camera1.position.x = 1
-// camera1.position.y = 1
-// camera1.position.z = 2
-// scene.add(camera1)
-
-// Controls
-// const controls1 = new OrbitControls(camera1, canvas)
-// controls1.enableDamping = true
 
 /**
  * Renderer
@@ -332,7 +300,7 @@ const clock1 = new THREE.Clock()
 
 const tick1 = () =>
 {
-    const elapsedTime = clock1.getElapsedTime()
+    const elapsedTime1 = clock1.getElapsedTime()
 
     // Render
     renderer.render(scene, camera)
@@ -341,4 +309,102 @@ const tick1 = () =>
     window.requestAnimationFrame(tick1)
 }
 tick1()
-//-------------------------- GALAXY
+//-------------------------- FOX
+
+
+/**
+ * Models
+ */
+const gltfLoader = new GLTFLoader()
+
+let mixer = null
+
+gltfLoader.load(
+    '/models/Fox/glTF/Fox.gltf',
+    (gltf) =>{
+
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[2])
+        action.play()
+
+        gltf.scene.scale.set(0.020, 0.020, 0.020)
+        scene.add(gltf.scene)
+        gltf.scene.position.y = -13
+        gltf.scene.position.z = -0.3
+        gltf.scene.rotation.y = -1
+    }
+)
+
+
+/**
+ * Floor
+ */
+const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 10),
+    new THREE.MeshStandardMaterial({
+        color: '#006600',
+        metalness: 0,
+        roughness: 0.5
+    })
+)
+floor.receiveShadow = true
+floor.rotation.x = - Math.PI * 0.5
+floor.position.y = -13;
+scene.add(floor)
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
+scene.add(ambientLight)
+
+const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.6)
+directionalLight2.castShadow = true
+directionalLight2.shadow.mapSize.set(1024, 1024)
+directionalLight2.shadow.camera.far = 15
+directionalLight2.shadow.camera.left = - 7
+directionalLight2.shadow.camera.top = 7
+directionalLight2.shadow.camera.right = 7
+directionalLight2.shadow.camera.bottom = - 7
+directionalLight2.position.set(5, 5, 5)
+scene.add(directionalLight2)
+
+
+// Controls
+// const controls2 = new OrbitControls(camera, canvas)
+// controls2.target.set(0, 0.75, 0)
+// controls2.enableDamping = true
+
+/**
+ * Renderer
+ */
+const renderer2 = new THREE.WebGLRenderer({
+    canvas: canvas
+})
+renderer2.shadowMap.enabled = true
+renderer2.shadowMap.type = THREE.PCFSoftShadowMap
+renderer2.setSize(sizes.width, sizes.height)
+renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+/**
+ * Animate
+ */
+const clock2 = new THREE.Clock()
+let previousTime2 = 0
+
+const tick2 = () =>
+{
+    const elapsedTime = clock2.getElapsedTime()
+    const deltaTime = elapsedTime - previousTime2
+    previousTime2 = elapsedTime
+
+    //Update Mixer
+    if(mixer !== null){
+       mixer.update(deltaTime)
+    }
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick2)
+}
+
+tick2()
+
