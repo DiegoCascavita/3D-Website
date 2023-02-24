@@ -5,6 +5,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
+import galaxyVertexShader from './shaders/galaxy/vertex.glsl'
+import galaxyFragmentShader from './shaders/galaxy/fragment.glsl'
+
 /**
  * Debug
  */
@@ -242,7 +245,7 @@ fontLoader1.load(
             'Welcome !!',
             {
                 font: font,
-                size: 0.5,
+                size: 0.3,
                 height: 0.2,
                 curveSegments: 12,
                 bevelEnabled: true,
@@ -255,7 +258,6 @@ fontLoader1.load(
         textGeometry.center()
 
         const text = new THREE.Mesh(textGeometry, material)
-        text.position.x -= 0.2;
         scene.add(text)
 
         // Donuts
@@ -304,15 +306,15 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera1 = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera1.position.x = 1
-camera1.position.y = 1
-camera1.position.z = 2
-scene.add(camera1)
+// const camera1 = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+// camera1.position.x = 1
+// camera1.position.y = 1
+// camera1.position.z = 2
+// scene.add(camera1)
 
 // Controls
-const controls1 = new OrbitControls(camera1, canvas)
-controls1.enableDamping = true
+// const controls1 = new OrbitControls(camera1, canvas)
+// controls1.enableDamping = true
 
 /**
  * Renderer
@@ -332,14 +334,11 @@ const tick1 = () =>
 {
     const elapsedTime = clock1.getElapsedTime()
 
-    // Update controls
-    controls1.update()
-
     // Render
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick1)
 }
-
 tick1()
+//-------------------------- GALAXY
