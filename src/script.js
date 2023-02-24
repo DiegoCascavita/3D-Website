@@ -41,7 +41,7 @@ const material = new THREE.MeshToonMaterial({
 const objectsDistance = 4
 
 const mesh1 = new THREE.Mesh(
-    new THREE.TorusGeometry(1, 0.4, 16, 60),
+    new THREE.IcosahedronGeometry(1, 10),
     material
 )
 const mesh2 = new THREE.Mesh(
@@ -49,7 +49,7 @@ const mesh2 = new THREE.Mesh(
     material
 )
 const mesh3 = new THREE.Mesh(
-    new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+    new THREE.TorusGeometry(1, 0.4, 16, 60),
     material
 )
 
@@ -57,7 +57,7 @@ mesh1.position.y = - objectsDistance * 0
 mesh2.position.y = - objectsDistance * 1
 mesh3.position.y = - objectsDistance * 2
 
-mesh1.position.x = 2 
+mesh1.position.x = 3 
 mesh2.position.x = -2 
 mesh3.position.x = 2 
 
@@ -223,7 +223,7 @@ const scene1 = new THREE.Scene()
  * Textures
  */
 const textureLoader1 = new THREE.TextureLoader()
-const matcapTexture = textureLoader1.load('textures/matcaps/8.png')
+const matcapTexture = textureLoader1.load('/matcaps/8.png')
 
 /**
  * Fonts
@@ -235,7 +235,7 @@ fontLoader1.load(
     (font) =>
     {
         // Material
-        const material = new THREE.MeshNormalMaterial({ matcap: matcapTexture })
+        const material = new THREE.MeshNormalMaterial({  })
 
         // Text
         const textGeometry = new TextGeometry(
@@ -255,6 +255,7 @@ fontLoader1.load(
         textGeometry.center()
 
         const text = new THREE.Mesh(textGeometry, material)
+        text.position.x -= 0.2;
         scene.add(text)
 
         // Donuts
