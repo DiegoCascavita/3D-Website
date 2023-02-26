@@ -182,16 +182,18 @@ window.addEventListener('deviceorientation', (event) => {
     const beta = event.beta; // Inclinación hacia delante/atrás
     const gamma = event.gamma; // Inclinación hacia los lados
   
+    // Limitar la inclinación máxima en el eje X y el eje Y
+    const betaLimited = Math.min(10, Math.max(-10, beta));
+    const gammaLimited = Math.min(10, Math.max(-10, gamma));
+  
     // Convertir los valores de la orientación a radianes
-    const alphaRad = alpha * Math.PI / 180;
-    const betaRad = beta * Math.PI / 180;
-    const gammaRad = gamma * Math.PI / 180;
+    const betaRad = betaLimited * Math.PI / 180;
+    const gammaRad = gammaLimited * Math.PI / 180;
   
     // Ajustar la posición de la cámara y los objetos en la escena
     cameraGroup.rotation.x = betaRad * 0.5;
     cameraGroup.rotation.y = gammaRad * 0.5;
-    cameraGroup.rotation.z = alphaRad * 0.5;
-  });
+});
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime()
