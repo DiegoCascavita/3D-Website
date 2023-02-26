@@ -1,10 +1,10 @@
 import * as THREE from 'three'
-import * as dat from 'lil-gui'
+// import * as dat from 'lil-gui'
 
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 /**
  * Debug
@@ -58,9 +58,9 @@ mesh1.position.y = - objectsDistance * 0
 mesh2.position.y = - objectsDistance * 1
 mesh3.position.y = - objectsDistance * 2
 
-mesh1.position.x = 3 
-mesh2.position.x = -2 
-mesh3.position.x = 2 
+mesh1.position.x = 3
+mesh2.position.x = -1.2
+mesh3.position.x = 1.2
 
 scene.add(mesh1, mesh2, mesh3)
 
@@ -73,32 +73,32 @@ const sectionMeshes = [mesh1, mesh2, mesh3]
 const particlesCount = 200
 const positions = new Float32Array(particlesCount * 3)
 
-for(let i = 0; i < particlesCount; i++){
-    positions [i * 3 + 0] = (Math.random() - 0.5) * 10 //x
-    positions [i * 3 + 1] = objectsDistance * 0.4 -   //z
-    Math.random()  * objectsDistance * sectionMeshes.length
-    positions [i * 3 + 2] = (Math.random() - 0.5) *10 //y
+for (let i = 0; i < particlesCount; i++) {
+    positions[i * 3 + 0] = (Math.random() - 0.5) * 10 //x
+    positions[i * 3 + 1] = objectsDistance * 0.4 -   //z
+        Math.random() * objectsDistance * sectionMeshes.length
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 10 //y
 }
 
 const particlesGeometry = new THREE.BufferGeometry()
 particlesGeometry.setAttribute('position',
- new THREE.BufferAttribute(positions,3))
+    new THREE.BufferAttribute(positions, 3))
 
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
     color: parameters.materialColor,
-    sizeAttenuation : true,
+    sizeAttenuation: true,
     size: 0.03
 })
 //Points
-const particles = new THREE.Points (particlesGeometry, particlesMaterial)
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
 
 /**
  * lights
  */
 const directionalLight = new THREE.DirectionalLight("#ffffff", 1)
-directionalLight.position.set(1,1,0)
+directionalLight.position.set(1, 1, 0)
 scene.add(directionalLight)
 
 
@@ -110,8 +110,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -153,7 +152,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Scroll
  */
 let scrollY = window.scrollY
-window.addEventListener("scroll", ()=>{
+window.addEventListener("scroll", () => {
     scrollY = window.scrollY
 })
 
@@ -164,7 +163,7 @@ const cursor = {}
 cursor.x = 0
 cursor.y = 0
 
-window.addEventListener("mousemove", (event)=>{
+window.addEventListener("mousemove", (event) => {
     cursor.x = event.clientX / sizes.width - 0.5
     cursor.y = event.clientY / sizes.height - 0.5
 
@@ -176,25 +175,42 @@ window.addEventListener("mousemove", (event)=>{
 const clock = new THREE.Clock()
 let previousTime = 0
 
-const tick = () =>
-{
+// Añadir un evento de escucha para el giroscopio
+window.addEventListener('deviceorientation', (event) => {
+    // Obtener la orientación del dispositivo
+    const alpha = event.alpha; // Azimut
+    const beta = event.beta; // Inclinación hacia delante/atrás
+    const gamma = event.gamma; // Inclinación hacia los lados
+  
+    // Convertir los valores de la orientación a radianes
+    const alphaRad = alpha * Math.PI / 180;
+    const betaRad = beta * Math.PI / 180;
+    const gammaRad = gamma * Math.PI / 180;
+  
+    // Ajustar la posición de la cámara y los objetos en la escena
+    cameraGroup.rotation.x = betaRad * 0.5;
+    cameraGroup.rotation.y = gammaRad * 0.5;
+    cameraGroup.rotation.z = alphaRad * 0.5;
+  });
+
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
 
     //CAMERA 
     //IMPORTANT ! - - - - - - - - - - - - - - - - - - - -
-    camera.position.y = - scrollY / sizes.height * objectsDistance 
+    camera.position.y = - scrollY / sizes.height * objectsDistance
     //- - - - - - - - - - - - - - -- - - - - - - - -- - - - -
 
     //PARALLAX animation
     const parallaxX = cursor.x * 0.5
     const parallaxY = - cursor.y * 0.5
-    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) *5 * deltaTime
+    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
     cameraGroup.position.y += (parallaxY - cameraGroup.position.y)
-    *5 * deltaTime
-   //Animate meshes
-    for(const mesh of sectionMeshes){
+        * 5 * deltaTime
+    //Animate meshes
+    for (const mesh of sectionMeshes) {
         mesh.rotation.x = elapsedTime * 0.1
         mesh.rotation.y = elapsedTime * 0.1
     }
@@ -216,10 +232,9 @@ const fontLoader1 = new FontLoader()
 
 fontLoader1.load(
     '/fonts/helvetiker_regular.typeface.json',
-    (font) =>
-    {
+    (font) => {
         // Material
-        const material = new THREE.MeshNormalMaterial({  })
+        const material = new THREE.MeshNormalMaterial({})
 
         // Text
         const textGeometry = new TextGeometry(
@@ -244,8 +259,7 @@ fontLoader1.load(
         // Donuts
         const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64)
 
-        for(let i = 0; i < 100; i++)
-        {
+        for (let i = 0; i < 100; i++) {
             const donut = new THREE.Mesh(donutGeometry, material)
             donut.position.x = (Math.random() - 0.5) * 10
             donut.position.y = (Math.random() - 0.5) * 10
@@ -268,8 +282,7 @@ const sizes1 = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes1.width = window.innerWidth
     sizes1.height = window.innerHeight
@@ -298,8 +311,7 @@ renderer1.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock1 = new THREE.Clock()
 
-const tick1 = () =>
-{
+const tick1 = () => {
     const elapsedTime1 = clock1.getElapsedTime()
 
     // Render
@@ -321,7 +333,7 @@ let mixer = null
 
 gltfLoader.load(
     '/models/Fox/glTF/Fox.gltf',
-    (gltf) =>{
+    (gltf) => {
 
         mixer = new THREE.AnimationMixer(gltf.scene)
         const action = mixer.clipAction(gltf.animations[2])
@@ -392,15 +404,14 @@ renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 const clock2 = new THREE.Clock()
 let previousTime2 = 0
 
-const tick2 = () =>
-{
+const tick2 = () => {
     const elapsedTime = clock2.getElapsedTime()
     const deltaTime = elapsedTime - previousTime2
     previousTime2 = elapsedTime
 
     //Update Mixer
-    if(mixer !== null){
-       mixer.update(deltaTime)
+    if (mixer !== null) {
+        mixer.update(deltaTime)
     }
     // Call tick again on the next frame
     window.requestAnimationFrame(tick2)
