@@ -178,24 +178,24 @@ let previousTime = 0
 // Giroscope event
 window.addEventListener('deviceorientation', (event) => {
     // Obtener la orientación del dispositivo
-    const alpha = event.alpha; // Azimut
     const beta = event.beta; // Inclinación hacia delante/atrás
     const gamma = event.gamma; // Inclinación hacia los lados
+    const alpha = event.alpha; // Giro en el eje z
   
-    // Limitar la inclinación máxima en el eje X y el eje Y
-    const alphaLimited = Math.min(10, Math.max(-10, beta));
-    const betaLimited = Math.min(10, Math.max(-10, beta));
+    // Limitar la inclinación máxima en el eje X, Y y Z
+    const betaLimited = Math.min(90, Math.max(-90, beta));
     const gammaLimited = Math.min(10, Math.max(-10, gamma));
+    const alphaLimited = alpha % 360;
   
     // Convertir los valores de la orientación a radianes
-    const alphaRad = alphaLimited * Math.PI / 180;
     const betaRad = betaLimited * Math.PI / 180;
     const gammaRad = gammaLimited * Math.PI / 180;
+    const alphaRad = alphaLimited * Math.PI / 180;
   
     // Ajustar la posición de la cámara y los objetos en la escena
-    cameraGroup.rotation.z = alphaRad * 0.5;
     cameraGroup.rotation.x = betaRad * 0.5;
     cameraGroup.rotation.y = gammaRad * 0.5;
+    cameraGroup.rotation.z = alphaRad * 0.5;
 });
 
 const tick = () => {
