@@ -327,10 +327,10 @@ gltfLoader.load(
         const action = mixer.clipAction(gltf.animations[2])
         action.play()
 
-        gltf.scene.scale.set(0.020, 0.020, 0.020)
+        gltf.scene.scale.set(0.014, 0.014, 0.014)
         scene.add(gltf.scene)
         gltf.scene.position.y = -13
-        gltf.scene.position.z = -0.3
+        gltf.scene.position.z = -0.2
         gltf.scene.rotation.y = -1
     }
 )
