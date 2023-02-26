@@ -175,7 +175,7 @@ window.addEventListener("mousemove", (event) => {
 const clock = new THREE.Clock()
 let previousTime = 0
 
-// Añadir un evento de escucha para el giroscopio
+// Giroscope event
 window.addEventListener('deviceorientation', (event) => {
     // Obtener la orientación del dispositivo
     const alpha = event.alpha; // Azimut
