@@ -181,9 +181,9 @@ window.addEventListener('deviceorientation', (event) => {
     const beta = event.beta; // Inclinación hacia delante/atrás
     const gamma = event.gamma; // Inclinación hacia los lados
   
-    // Limitar la inclinación máxima en el eje X y el eje Y
-    const betaLimited = Math.min(20, Math.max(-20, beta));
-    const gammaLimited = Math.min(20, Math.max(-20, gamma));
+    // Limitar la inclinación máxima en el eje X y el eje z
+    const betaLimited = Math.min(10, Math.max(-10, beta));
+    const gammaLimited = Math.min(10, Math.max(-10, gamma));
   
     // Convertir los valores de la orientación a radianes
     const betaRad = betaLimited * Math.PI / 180;
