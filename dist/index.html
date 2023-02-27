@@ -17,14 +17,22 @@
 <!--==================== UNICONS ====================-->
 <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-  <script type="module" crossorigin src="./assets/index-ee71e1bf.js"></script>
-  <link rel="stylesheet" href="./assets/index-54432c04.css">
+  <script type="module" crossorigin src="./assets/index-73bdfecc.js"></script>
+  <link rel="stylesheet" href="./assets/index-50ec2220.css">
 </head>
 <body>
-    <canvas class="webgl"></canvas>
 
+<audio autoplay loop>
+<source src="./assets/Space-0d5f132a.mp3" type="audio/mpeg">
+</audio>
+
+<canvas class="webgl"></canvas>
     <section class="section">
-        <h1>.</h1>
+        <div id="modalbox">
+            <img src="./assets/giroscope-cc10d498.gif" alt="PopUp" class="img">
+            <p class="popup-text">If you are on cell phone turn on the gyroscope</p>
+            <button type="button" class="accept-btn" onclick="closeModal()">Accept</button>
+          </div>
     </section>
     <section class="section">
         <h1 class="left-Text">I'M A CREATIVE FRONTEND DEV<h1/>
@@ -33,7 +41,7 @@
         <h2 class="left-Text">IF U WANT TO SEE MY WORK!</h2>
     </section>
     <section class="section">
-        <h2 class="left-Text">CLICK THE BRIEFCASE!</h2>
+        <h2 class="right-Text">CLICK THE BRIEFCASE!</h2>
         <div class="contact">
             <div class="footer socials">
                 <a href="https://www.linkedin.com/in/diego-alejandro-cascavita-poveda-890524124/" 
@@ -54,6 +62,14 @@
             </h1>
         </div>
     </section>
+    <script>
+        // --------------------------POP UP
+    let modalBox = document.getElementById('modalbox')
+  
+    function closeModal() {
+      modalBox.style.display = "none";
+    }
+      </script>
     
 </body>
 </html>
