@@ -45,3 +45,34 @@ section:nth-child(odd)
 a{
     color: white;
 }
+ /*------------------POP UP */
+ #modalbox{
+    z-index: 1;
+    position: fixed;
+    width: 80%;
+    left: 10%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: white;
+    /* display: none; */
+  }
+  .accept-btn{
+    font-size: medium;
+    padding: 7px;
+    display: block;
+    margin: 20px auto;
+    background: rgb(90, 90, 90);
+    border-radius: 5px;
+    color: white;
+  }
+  .img{
+    margin-bottom: 15px;
+    border-radius: 5px;
+  }
+  .popuptext{
+    text-align: center;
+  }

@@ -70,7 +70,7 @@ const sectionMeshes = [mesh1, mesh2, mesh3]
  * Particles
  */
 // Geometry
-const particlesCount = 200
+const particlesCount = 10000
 const positions = new Float32Array(particlesCount * 3)
 
 for (let i = 0; i < particlesCount; i++) {
@@ -259,7 +259,7 @@ fontLoader1.load(
 
         // Donuts
         const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64)
-
+        
         for (let i = 0; i < 100; i++) {
             const donut = new THREE.Mesh(donutGeometry, material)
             donut.position.x = (Math.random() - 0.5) * 10

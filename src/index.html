@@ -19,10 +19,15 @@
 
 </head>
 <body>
+    <audio autoplay loop src="./assets/Space.mp3"></audio>
     <canvas class="webgl"></canvas>
 
     <section class="section">
-        <h1>.</h1>
+        <div id="modalbox">
+            <img src="./assets/giroscope.gif" alt="PopUp" class="img">
+            <p class="popup-text">If you are on cell phone turn on the giroscope</p>
+            <button type="button" class="accept-btn" onclick="closeModal()">Accept</button>
+          </div>
     </section>
     <section class="section">
         <h1 class="left-Text">I'M A CREATIVE FRONTEND DEV<h1/>
@@ -52,6 +57,14 @@
             </h1>
         </div>
     </section>
+    <script>
+        // --------------------------POP UP
+    let modalBox = document.getElementById('modalbox')
+  
+    function closeModal() {
+      modalBox.style.display = "none";
+    }
+      </script>
     <script type="module" src="./script.js"></script>
 </body>
 </html>
