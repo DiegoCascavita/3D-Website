@@ -1,6 +1,6 @@
 # Three.js Website
 
- 😁 My first project with Three.js creating a 3d Website⭐
+ 😁Welcome to my 3D Website with Three.js⭐
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
